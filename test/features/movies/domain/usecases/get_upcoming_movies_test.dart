@@ -16,7 +16,8 @@ void main() {
     usecase = GetUpcomingMovies(mockMovieRepository);
   });
 
-  final tMovie = Movie(1, 'desc', 2.0, 'path', 'title', 'date', 3.0, 1, 10.0);
+  final tMovie = Movie(1, false, 'desc', 2.0, 'path', 'title', 'date', [1],
+      'originalTitle', 'originalLanguage', 'backdropPath', 3.0, false, 1);
   final tPage = 1;
 
   test('shoud get upcoming movies from the repository', () async {
