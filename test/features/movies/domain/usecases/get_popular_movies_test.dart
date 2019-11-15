@@ -20,7 +20,7 @@ void main() {
       'originalTitle', 'originalLanguage', 'backdropPath', 3.0, false, 1);
   final tPage = 1;
 
-  test('shoud get popular movies from the repository', () async {
+  test('should get popular movies from the repository', () async {
     // arrange
     when(mockMovieRepository.getPopularMovies(any))
         .thenAnswer((_) async => Right(tMovie));
