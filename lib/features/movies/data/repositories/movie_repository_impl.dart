@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 import 'package:movieapp/core/error/exceptions.dart';
 import 'package:movieapp/core/error/failures.dart';
-import 'package:movieapp/core/platform/network_info.dart';
+import 'package:movieapp/core/network/network_info.dart';
 import 'package:movieapp/features/movies/data/datasources/movie_remote_data_source.dart';
 import 'package:movieapp/features/movies/data/models/movie_model.dart';
 import 'package:movieapp/features/movies/domain/entities/movie.dart';
