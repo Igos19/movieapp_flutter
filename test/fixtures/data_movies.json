@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "poster_path": "/bWUeJHbKIyT306WtJFRHoSzX9nk.jpg",
+      "adult": false,
+      "overview": "overview",
+      "release_date": "2016-05-05",
+      "genre_ids": [
+        35
+      ],
+      "id": 325133,
+      "original_title": "Neighbors 2: Sorority Rising",
+      "original_language": "en",
+      "title": "Neighbors 2: Sorority Rising",
+      "backdrop_path": "/8HuO1RMDI3prfWDkF7t1y8EhLVO.jpg",
+      "popularity": 11.178222,
+      "vote_count": 414,
+      "video": false,
+      "vote_average": 5.36
+    }
+  ],
+  "page": 1,
+  "total_results": 1000,
+  "total_pages": 500
+}

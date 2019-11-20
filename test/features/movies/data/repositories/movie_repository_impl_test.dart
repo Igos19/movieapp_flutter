@@ -5,9 +5,10 @@ import 'package:movieapp/core/error/exceptions.dart';
 import 'package:movieapp/core/error/failures.dart';
 import 'package:movieapp/core/network/network_info.dart';
 import 'package:movieapp/features/movies/data/datasources/movie_remote_data_source.dart';
+import 'package:movieapp/features/movies/data/models/data_movies_model.dart';
 import 'package:movieapp/features/movies/data/models/movie_model.dart';
 import 'package:movieapp/features/movies/data/repositories/movie_repository_impl.dart';
-import 'package:movieapp/features/movies/domain/entities/movie.dart';
+import 'package:movieapp/features/movies/domain/entities/data_movies.dart';
 
 class MockMovieRemoteDataSource extends Mock implements MovieRemoteDataSource {}
 
@@ -17,8 +18,6 @@ void main() {
   MovieRepositoryImpl repository;
   MockMovieRemoteDataSource mockMovieRemoteDataSource;
   MockNetworkInfo mockNetworkInfo;
-
-  int tPage = 1;
 
   setUp(() {
     mockMovieRemoteDataSource = MockMovieRemoteDataSource();
@@ -64,156 +63,177 @@ void main() {
       voteCount: 414,
     );
 
-    final Movie tMovie = tMovieModel;
+    final tMovieModels = [tMovieModel];
 
-    test(
-        'should return remote data when the call to remote data source is successfull while getting popular movies',
-        () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getNowPlayingMovies(any))
-          .thenAnswer((_) async => tMovieModel);
-      // act
-      final result = await repository.getNowPlayingMovies(tPage);
-      //assert
-      verify(mockMovieRemoteDataSource.getNowPlayingMovies(tPage));
-      expect(result, Right(tMovie));
+    final DataMoviesModel tDataMoviesModel = DataMoviesModel(
+        results: tMovieModels,
+        page: tPage,
+        totalResults: 1000,
+        totalPages: 500);
+    final DataMovies tDataMovies = tDataMoviesModel;
+
+    group('now playing movies', () {
+      test(
+          'should return remote data when the call to remote data source is successfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getNowPlayingMovies(any))
+            .thenAnswer((_) async => tDataMoviesModel);
+        // act
+        final result = await repository.getNowPlayingMovies(tPage);
+        //assert
+        verify(mockMovieRemoteDataSource.getNowPlayingMovies(tPage));
+        expect(result, Right(tDataMovies));
+      });
+
+      test(
+          'should return failure when the call remote data source is unsuccessfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getNowPlayingMovies(any))
+            .thenThrow(ServerException());
+        // act
+        final result = await repository.getNowPlayingMovies(tPage);
+        //assert
+        verify(mockMovieRemoteDataSource.getNowPlayingMovies(tPage));
+        expect(result, Left(ServerFailure()));
+      });
     });
 
-    test(
-        'should return failure when the call remote data source is unsuccessfull while getting popular movies',
-        () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getNowPlayingMovies(any))
-          .thenThrow(ServerException());
-      // act
-      final result = await repository.getNowPlayingMovies(tPage);
-      //assert
-      verify(mockMovieRemoteDataSource.getNowPlayingMovies(tPage));
-      expect(result, Left(ServerFailure()));
+    group('top rated movies', () {
+      test(
+          'should return remote data when the call to remote data source is successfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getTopRatedMovies(any))
+            .thenAnswer((_) async => tDataMoviesModel);
+        // act
+        final result = await repository.getTopRatedMovies(tPage);
+        //assert
+        verify(mockMovieRemoteDataSource.getTopRatedMovies(tPage));
+        expect(result, Right(tDataMovies));
+      });
+
+      test(
+          'should return failure when the call remote data source is unsuccessfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getTopRatedMovies(any))
+            .thenThrow(ServerException());
+        // act
+        final result = await repository.getTopRatedMovies(tPage);
+        //assert
+        verify(mockMovieRemoteDataSource.getTopRatedMovies(tPage));
+        expect(result, Left(ServerFailure()));
+      });
     });
 
-    test(
-        'should return remote data when the call to remote data source is successfull while getting top rated movies',
-        () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getTopRatedMovies(any))
-          .thenAnswer((_) async => tMovieModel);
-      // act
-      final result = await repository.getTopRatedMovies(tPage);
-      //assert
-      verify(mockMovieRemoteDataSource.getTopRatedMovies(tPage));
-      expect(result, Right(tMovie));
+    group('upcoming movies', () {
+      test(
+          'should return remote data when the call to remote data source is successfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getUpcomingMovies(any))
+            .thenAnswer((_) async => tDataMoviesModel);
+        // act
+        final result = await repository.getUpcomingMovies(tPage);
+        //assert
+        verify(mockMovieRemoteDataSource.getUpcomingMovies(tPage));
+        expect(result, Right(tDataMovies));
+      });
+
+      test(
+          'should return failure when the call remote data source is unsuccessfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getUpcomingMovies(any))
+            .thenThrow(ServerException());
+        // act
+        final result = await repository.getUpcomingMovies(tPage);
+        //assert
+        verify(mockMovieRemoteDataSource.getUpcomingMovies(tPage));
+        expect(result, Left(ServerFailure()));
+      });
     });
 
-    test(
-        'should return failure when the call remote data source is unsuccessfull while getting top rated movies',
-        () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getTopRatedMovies(any))
-          .thenThrow(ServerException());
-      // act
-      final result = await repository.getTopRatedMovies(tPage);
-      //assert
-      verify(mockMovieRemoteDataSource.getTopRatedMovies(tPage));
-      expect(result, Left(ServerFailure()));
-    });
+    group('popular movies', () {
+      test(
+          'should return remote data when the call to remote data source is successfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getPopularMovies(any))
+            .thenAnswer((_) async => tDataMoviesModel);
+        // act
+        final result = await repository.getPopularMovies(tPage);
+        //assert
+        verify(mockMovieRemoteDataSource.getPopularMovies(tPage));
+        expect(result, Right(tDataMovies));
+      });
 
-    test(
-        'should return remote data when the call to remote data source is successfull while getting upcoming movies',
-        () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getUpcomingMovies(any))
-          .thenAnswer((_) async => tMovieModel);
-      // act
-      final result = await repository.getUpcomingMovies(tPage);
-      //assert
-      verify(mockMovieRemoteDataSource.getUpcomingMovies(tPage));
-      expect(result, Right(tMovie));
-    });
-
-    test(
-        'should return failure when the call remote data source is unsuccessfull while getting upcoming movies',
-        () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getUpcomingMovies(any))
-          .thenThrow(ServerException());
-      // act
-      final result = await repository.getUpcomingMovies(tPage);
-      //assert
-      verify(mockMovieRemoteDataSource.getUpcomingMovies(tPage));
-      expect(result, Left(ServerFailure()));
-    });
-
-    test(
-        'should return remote data when the call to remote data source is successfull while getting now playing movies',
-        () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getUpcomingMovies(any))
-          .thenAnswer((_) async => tMovieModel);
-      // act
-      final result = await repository.getUpcomingMovies(tPage);
-      //assert
-      verify(mockMovieRemoteDataSource.getUpcomingMovies(tPage));
-      expect(result, Right(tMovie));
-    });
-
-    test(
-        'should return failure when the call remote data source is unsuccessfull while getting now playing movies',
-        () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getUpcomingMovies(any))
-          .thenThrow(ServerException());
-      // act
-      final result = await repository.getUpcomingMovies(tPage);
-      //assert
-      verify(mockMovieRemoteDataSource.getUpcomingMovies(tPage));
-      expect(result, Left(ServerFailure()));
+      test(
+          'should return failure when the call remote data source is unsuccessfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getPopularMovies(any))
+            .thenThrow(ServerException());
+        // act
+        final result = await repository.getPopularMovies(tPage);
+        //assert
+        verify(mockMovieRemoteDataSource.getPopularMovies(tPage));
+        expect(result, Left(ServerFailure()));
+      });
     });
   });
 
   runTestsOffline(() {
-    test(
-        'should return NetworkFailure when there is not internet connection while getting popular movies',
-        () async {
-      // arrange
-      // act
-      final result = await repository.getNowPlayingMovies(tPage);
-      //assert
-      verify(mockNetworkInfo.isConnected);
-      expect(result, Left(NetworkFailure()));
+    final tPage = 1;
+
+    group('popular movies', () {
+      test('should return NetworkFailure when there is not internet connection',
+          () async {
+        // arrange
+        // act
+        final result = await repository.getNowPlayingMovies(tPage);
+        //assert
+        verify(mockNetworkInfo.isConnected);
+        expect(result, Left(NetworkFailure()));
+      });
     });
 
-    test(
-        'should return NetworkFailure when there is not internet connection while getting top rated movies',
-        () async {
-      // arrange
-      // act
-      final result = await repository.getTopRatedMovies(tPage);
-      //assert
-      verify(mockNetworkInfo.isConnected);
-      expect(result, Left(NetworkFailure()));
+    group('top rated movies', () {
+      test('should return NetworkFailure when there is not internet connection',
+          () async {
+        // arrange
+        // act
+        final result = await repository.getTopRatedMovies(tPage);
+        //assert
+        verify(mockNetworkInfo.isConnected);
+        expect(result, Left(NetworkFailure()));
+      });
     });
 
-    test(
-        'should return NetworkFailure when there is not internet connection while getting upcoming movies',
-        () async {
-      // arrange
-      // act
-      final result = await repository.getUpcomingMovies(tPage);
-      //assert
-      verify(mockNetworkInfo.isConnected);
-      expect(result, Left(NetworkFailure()));
+    group('upcoming movies', () {
+      test('should return NetworkFailure when there is not internet connection',
+          () async {
+        // arrange
+        // act
+        final result = await repository.getUpcomingMovies(tPage);
+        //assert
+        verify(mockNetworkInfo.isConnected);
+        expect(result, Left(NetworkFailure()));
+      });
     });
 
-    test(
-        'should return NetworkFailure when there is not internet connection while getting now playing movies',
-        () async {
-      // arrange
-      // act
-      final result = await repository.getUpcomingMovies(tPage);
-      //assert
-      verify(mockNetworkInfo.isConnected);
-      expect(result, Left(NetworkFailure()));
+    group('now playing movies', () {
+      test('should return NetworkFailure when there is not internet connection',
+          () async {
+        // arrange
+        // act
+        final result = await repository.getUpcomingMovies(tPage);
+        //assert
+        verify(mockNetworkInfo.isConnected);
+        expect(result, Left(NetworkFailure()));
+      });
     });
   });
 }

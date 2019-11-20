@@ -67,14 +67,6 @@ class MovieModel extends Movie {
         'popularity': popularity,
         'vote_count': voteCount,
         'video': false,
-        'vote_average': 5.36
+        'vote_average': voteAverage
       };
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Movie && runtimeType == other.runtimeType && id == other.id;
-
-  @override
-  int get hashCode => id.hashCode;
 }

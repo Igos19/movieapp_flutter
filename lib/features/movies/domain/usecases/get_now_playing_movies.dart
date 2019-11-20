@@ -3,16 +3,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:movieapp/core/error/failures.dart';
 import 'package:movieapp/core/usecases/usecase.dart';
+import 'package:movieapp/features/movies/domain/entities/data_movies.dart';
 import 'package:movieapp/features/movies/domain/entities/movie.dart';
 import 'package:movieapp/features/movies/domain/repositories/movie_repository.dart';
 
-class GetNowPlayingMovies extends UseCase<Movie, Params> {
+class GetNowPlayingMovies extends UseCase<DataMovies, Params> {
   final MovieRepository repository;
 
   GetNowPlayingMovies(this.repository);
 
   @override
-  Future<Either<Failure, Movie>> call(Params params) async {
+  Future<Either<Failure, DataMovies>> call(Params params) async {
     return await repository.getNowPlayingMovies(params.page);
   }
 }
