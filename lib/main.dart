@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/UI/home_screen.dart';
 import 'package:movieapp/res/styles.dart';
 
-void main() => runApp(Movies());
+import 'injection_container.dart' as di;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
+  runApp(Movies());
+}
 
 class Movies extends StatelessWidget {
   @override
