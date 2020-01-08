@@ -4,7 +4,10 @@ import 'package:movieapp/features/movies/domain/entities/data_movies.dart';
 
 @immutable
 abstract class MoviesState extends Equatable {
-  MoviesState([List props = const <dynamic>[]]) : super(props);
+  MoviesState() : super();
+
+  @override
+  List<Object> get props => const <dynamic>[];
 }
 
 class Empty extends MoviesState {}
@@ -14,11 +17,17 @@ class Loading extends MoviesState {}
 class Loaded extends MoviesState {
   final DataMovies movies;
 
-  Loaded({@required this.movies}) : super([movies]);
+  Loaded({@required this.movies}) : super();
+
+  @override
+  List<Object> get props => [movies];
 }
 
 class Error extends MoviesState {
   final String message;
 
-  Error({@required this.message}) : super([message]);
+  Error({@required this.message}) : super();
+
+  @override
+  List<Object> get props => [message];
 }

@@ -8,4 +8,7 @@ class DataMovies extends Equatable {
   final int totalPages;
 
   DataMovies(this.results, this.page, this.totalResults, this.totalPages);
+
+  @override
+  List<Object> get props => const <dynamic>[];
 }

@@ -20,5 +20,8 @@ class GetUpcomingMovies extends UseCase<DataMovies, Params> {
 class Params extends Equatable {
   final int page;
 
-  Params({@required this.page}) : super([page]);
+  Params({@required this.page}) : super();
+
+  @override
+  List<Object> get props => [page];
 }

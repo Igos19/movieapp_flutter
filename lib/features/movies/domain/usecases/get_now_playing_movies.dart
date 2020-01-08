@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:movieapp/core/error/failures.dart';
 import 'package:movieapp/core/usecases/usecase.dart';
 import 'package:movieapp/features/movies/domain/entities/data_movies.dart';
-import 'package:movieapp/features/movies/domain/entities/movie.dart';
 import 'package:movieapp/features/movies/domain/repositories/movie_repository.dart';
 
 class GetNowPlayingMovies extends UseCase<DataMovies, Params> {
@@ -21,5 +20,8 @@ class GetNowPlayingMovies extends UseCase<DataMovies, Params> {
 class Params extends Equatable {
   final int page;
 
-  Params({@required this.page}) : super([page]);
+  Params({@required this.page}) : super();
+
+  @override
+  List<Object> get props => [page];
 }
