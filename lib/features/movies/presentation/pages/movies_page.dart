@@ -56,7 +56,7 @@ class _MoviesPageState extends State<MoviesPage> {
                   .add(widget.event);
               return Center();
             } else if (state is Loading) {
-              return Center(child: CircularProgressIndicator());
+              //return Center(child: CircularProgressIndicator());
             } else if (state is Loaded) {
               movies.addAll(state.movies.results);
               return MoviesGrid(
