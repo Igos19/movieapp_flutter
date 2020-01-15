@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movieapp/bloc/bloc_provider.dart';
 import 'package:movieapp/bloc/videos_query_bloc.dart';
-import 'package:movieapp/datalayer/movie.dart';
 import 'package:movieapp/datalayer/video.dart';
+import 'package:movieapp/features/movies/domain/entities/movie.dart';
+import 'package:movieapp/features/movies/presentation/widgets/image_container.dart';
+import 'package:movieapp/features/movies/presentation/widgets/play_video_screen.dart';
 import 'package:movieapp/res/styles.dart';
-import 'package:movieapp/ui/play_video_screen.dart';
 
-import '../res/strings.dart';
-import 'image_container.dart';
+import '../../../../res/strings.dart';
 
-class MovieDetailsScreen extends StatelessWidget {
+class MovieDetailsPage extends StatelessWidget {
   final Movie movie;
 
-  const MovieDetailsScreen({Key key, this.movie}) : super(key: key);
+  const MovieDetailsPage({Key key, this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

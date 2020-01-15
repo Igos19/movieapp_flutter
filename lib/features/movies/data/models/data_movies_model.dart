@@ -8,7 +8,9 @@ class DataMoviesModel extends DataMovies {
 
   factory DataMoviesModel.fromJson(Map<String, dynamic> json) {
     return DataMoviesModel(
-      results: json['results'].cast<MovieModel>(),
+      results: json['results']
+          .map<MovieModel>((json) => MovieModel.fromJson(json))
+          .toList(growable: false),
       page: json['page'],
       totalResults: json['total_results'],
       totalPages: json['total_pages'],

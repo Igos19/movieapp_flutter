@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/UI/home_screen.dart';
+import 'package:movieapp/features/movies/presentation/pages/home_screen.dart';
 import 'package:movieapp/res/styles.dart';
 
 import 'injection_container.dart' as di;
@@ -17,6 +17,7 @@ class Movies extends StatelessWidget {
       title: 'Movies',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        accentColor: mainColor,
         appBarTheme: AppBarTheme(
             color: Colors.black,
             iconTheme: IconThemeData(color: mainColor),

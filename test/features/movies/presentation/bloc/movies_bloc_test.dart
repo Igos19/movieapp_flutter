@@ -63,7 +63,7 @@ void main() {
         when(mockGetPopularMovies.call(any))
             .thenAnswer((_) async => Right(tDataMovies));
         // act
-        bloc.dispatch(GetPopularMoviesEvent(tPage));
+        bloc.add(GetPopularMoviesEvent(page: tPage));
         await untilCalled(mockGetPopularMovies(any));
         //assert
         verify(mockGetPopularMovies(popular.Params(page: tPage)));
@@ -76,9 +76,9 @@ void main() {
             .thenAnswer((_) async => Right(tDataMovies));
         // act
         final expected = [Empty(), Loading(), Loaded(movies: tDataMovies)];
-        expectLater(bloc.state, emitsInOrder(expected));
+        expectLater(bloc, emitsInOrder(expected));
         //assert
-        bloc.dispatch(GetPopularMoviesEvent(tPage));
+        bloc.add(GetPopularMoviesEvent(page: tPage));
       });
 
       test('should emit [Loading, Error] when getting data is failed',
@@ -92,9 +92,9 @@ void main() {
           Loading(),
           Error(message: SERVER_FAILURE_MESSAGE)
         ];
-        expectLater(bloc.state, emitsInOrder(expected));
+        expectLater(bloc, emitsInOrder(expected));
         //assert
-        bloc.dispatch(GetPopularMoviesEvent(tPage));
+        bloc.add(GetPopularMoviesEvent(page: tPage));
       });
     });
 
@@ -104,7 +104,7 @@ void main() {
         when(mockGetTopRatedMovies.call(any))
             .thenAnswer((_) async => Right(tDataMovies));
         // act
-        bloc.dispatch(GetTopRatedMoviesEvent(tPage));
+        bloc.add(GetTopRatedMoviesEvent(page: tPage));
         await untilCalled(mockGetTopRatedMovies(any));
         //assert
         verify(mockGetTopRatedMovies(topRated.Params(page: tPage)));
@@ -117,9 +117,9 @@ void main() {
             .thenAnswer((_) async => Right(tDataMovies));
         // act
         final expected = [Empty(), Loading(), Loaded(movies: tDataMovies)];
-        expectLater(bloc.state, emitsInOrder(expected));
+        expectLater(bloc, emitsInOrder(expected));
         //assert
-        bloc.dispatch(GetTopRatedMoviesEvent(tPage));
+        bloc.add(GetTopRatedMoviesEvent(page: tPage));
       });
 
       test('should emit [Loading, Error] when getting data is failed',
@@ -133,9 +133,9 @@ void main() {
           Loading(),
           Error(message: SERVER_FAILURE_MESSAGE)
         ];
-        expectLater(bloc.state, emitsInOrder(expected));
+        expectLater(bloc, emitsInOrder(expected));
         //assert
-        bloc.dispatch(GetTopRatedMoviesEvent(tPage));
+        bloc.add(GetTopRatedMoviesEvent(page: tPage));
       });
     });
 
@@ -145,7 +145,7 @@ void main() {
         when(mockGetUpcomingMovies.call(any))
             .thenAnswer((_) async => Right(tDataMovies));
         // act
-        bloc.dispatch(GetUpcomingMoviesEvent(tPage));
+        bloc.add(GetUpcomingMoviesEvent(page: tPage));
         await untilCalled(mockGetUpcomingMovies(any));
         //assert
         verify(mockGetUpcomingMovies(upcoming.Params(page: tPage)));
@@ -158,9 +158,9 @@ void main() {
             .thenAnswer((_) async => Right(tDataMovies));
         // act
         final expected = [Empty(), Loading(), Loaded(movies: tDataMovies)];
-        expectLater(bloc.state, emitsInOrder(expected));
+        expectLater(bloc, emitsInOrder(expected));
         //assert
-        bloc.dispatch(GetUpcomingMoviesEvent(tPage));
+        bloc.add(GetUpcomingMoviesEvent(page: tPage));
       });
 
       test('should emit [Loading, Error] when getting data is failed',
@@ -174,9 +174,9 @@ void main() {
           Loading(),
           Error(message: SERVER_FAILURE_MESSAGE)
         ];
-        expectLater(bloc.state, emitsInOrder(expected));
+        expectLater(bloc, emitsInOrder(expected));
         //assert
-        bloc.dispatch(GetUpcomingMoviesEvent(tPage));
+        bloc.add(GetUpcomingMoviesEvent(page: tPage));
       });
     });
 
@@ -186,7 +186,7 @@ void main() {
         when(mockGetNowPlayingMovies.call(any))
             .thenAnswer((_) async => Right(tDataMovies));
         // act
-        bloc.dispatch(GetNowPlayingMoviesEvent(tPage));
+        bloc.add(GetNowPlayingMoviesEvent(page: tPage));
         await untilCalled(mockGetNowPlayingMovies(any));
         //assert
         verify(mockGetNowPlayingMovies(nowPlaying.Params(page: tPage)));
@@ -199,9 +199,9 @@ void main() {
             .thenAnswer((_) async => Right(tDataMovies));
         // act
         final expected = [Empty(), Loading(), Loaded(movies: tDataMovies)];
-        expectLater(bloc.state, emitsInOrder(expected));
+        expectLater(bloc, emitsInOrder(expected));
         //assert
-        bloc.dispatch(GetNowPlayingMoviesEvent(tPage));
+        bloc.add(GetNowPlayingMoviesEvent(page: tPage));
       });
 
       test('should emit [Loading, Error] when getting data is failed',
@@ -215,9 +215,9 @@ void main() {
           Loading(),
           Error(message: SERVER_FAILURE_MESSAGE)
         ];
-        expectLater(bloc.state, emitsInOrder(expected));
+        expectLater(bloc, emitsInOrder(expected));
         //assert
-        bloc.dispatch(GetNowPlayingMoviesEvent(tPage));
+        bloc.add(GetNowPlayingMoviesEvent(page: tPage));
       });
     });
   });

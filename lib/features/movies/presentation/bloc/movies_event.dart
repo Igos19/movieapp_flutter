@@ -3,41 +3,48 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract class MoviesEvent extends Equatable {
-  MoviesEvent() : super();
+  final int page;
+
+  MoviesEvent(this.page) : super();
+
+  MoviesEvent recreate(int page);
+
+  @override
+  List<Object> get props => [page];
 }
 
 class GetPopularMoviesEvent extends MoviesEvent {
-  final int page;
-
-  GetPopularMoviesEvent(this.page) : super();
+  GetPopularMoviesEvent({int page = 1}) : super(page);
 
   @override
-  List<Object> get props => [page];
+  MoviesEvent recreate(int page) {
+    return GetPopularMoviesEvent(page: page);
+  }
 }
 
 class GetTopRatedMoviesEvent extends MoviesEvent {
-  final int page;
-
-  GetTopRatedMoviesEvent(this.page) : super();
+  GetTopRatedMoviesEvent({int page = 1}) : super(page);
 
   @override
-  List<Object> get props => [page];
+  MoviesEvent recreate(int page) {
+    return GetTopRatedMoviesEvent(page: page);
+  }
 }
 
 class GetUpcomingMoviesEvent extends MoviesEvent {
-  final int page;
-
-  GetUpcomingMoviesEvent(this.page) : super();
+  GetUpcomingMoviesEvent({int page = 1}) : super(page);
 
   @override
-  List<Object> get props => [page];
+  MoviesEvent recreate(int page) {
+    return GetUpcomingMoviesEvent(page: page);
+  }
 }
 
 class GetNowPlayingMoviesEvent extends MoviesEvent {
-  final int page;
-
-  GetNowPlayingMoviesEvent(this.page) : super();
+  GetNowPlayingMoviesEvent({int page = 1}) : super(page);
 
   @override
-  List<Object> get props => [page];
+  MoviesEvent recreate(int page) {
+    return GetNowPlayingMoviesEvent(page: page);
+  }
 }

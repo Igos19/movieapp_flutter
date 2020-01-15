@@ -1,6 +1,7 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:movieapp/core/network/network_info.dart';
 import 'package:movieapp/features/movies/data/datasources/movie_remote_data_source_impl.dart';
 import 'package:movieapp/features/movies/data/repositories/movie_repository_impl.dart';
 import 'package:movieapp/features/movies/domain/repositories/movie_repository.dart';
@@ -41,6 +42,9 @@ Future<void> init() async {
   sl.registerLazySingleton<MovieRemoteDataSource>(
     () => MovieRemoteDataSourceImpl(httpClient: sl()),
   );
+
+  //! Core
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(connectionChecker: sl()));
 
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/features/movies/presentation/bloc/movies_event.dart';
+import 'package:movieapp/features/movies/presentation/pages/movies_page.dart';
 import 'package:movieapp/res/styles.dart';
-import 'package:movieapp/ui/movies/popular_movies_page_screen.dart';
-
-import 'movies/now_playing_movies_page_screen.dart';
-import 'movies/top_movies_page_screen.dart';
-import 'movies/upcoming_movies_page_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,17 +18,19 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     _tabs = {
-      new Tab(text: 'POPULAR'):
-          PopularMoviesPageScreen(scrollController: _scrollController),
-      new Tab(text: 'TOP'):
-          TopMoviesPageScreen(scrollController: _scrollController),
-      new Tab(text: 'UPCOMING'):
-          UpcomingMoviesPageScreen(scrollController: _scrollController),
+      new Tab(text: 'POPULAR'): MoviesPage(
+          scrollController: _scrollController, event: GetPopularMoviesEvent()),
+      new Tab(text: 'TOP'): MoviesPage(
+          scrollController: _scrollController, event: GetTopRatedMoviesEvent()),
+      new Tab(text: 'UPCOMING'): MoviesPage(
+          scrollController: _scrollController, event: GetUpcomingMoviesEvent()),
       new Tab(
           child: Text(
         'NOW PLAYING',
         textAlign: TextAlign.center,
-      )): NowPlayingMoviesPageScreen(scrollController: _scrollController)
+      )): MoviesPage(
+          scrollController: _scrollController,
+          event: GetNowPlayingMoviesEvent()),
     };
     _tabController = new TabController(length: _tabs.length, vsync: this);
     super.initState();
