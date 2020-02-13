@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:movieapp/core/error/exceptions.dart';
 import 'package:movieapp/features/movies/data/datasources/movie_remote_data_source.dart';
 import 'package:movieapp/features/movies/data/models/data_movies_model.dart';
+import 'package:movieapp/features/movies/data/models/data_videos_model.dart';
 
 class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   final _apiKey = 'a638a19e1279ce455bae9f6415ce22b9';
@@ -30,10 +31,23 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   Future<DataMoviesModel> getUpcomingMovies(int page) =>
       _fetchMovies(page, 'movie/upcoming');
 
-  Future<DataMoviesModel> _fetchMovies(int page, String path) => _request(
+  Future<DataMoviesModel> _fetchMovies(int page, String path) => _requestMovies(
       path: path, parameters: setParameters({'page': page.toString()}));
 
-  Future<DataMoviesModel> _request(
+  @override
+  Future<DataVideosModel> getVideos(int id) async {
+    String path = 'movie/$id/videos';
+    return DataVideosModel.fromJson(
+        json.decode(await _requestBody(path: path, parameters: _parameters)));
+  }
+
+  Future<DataMoviesModel> _requestMovies(
+      {@required String path, Map<String, String> parameters}) async {
+    return DataMoviesModel.fromJson(
+        json.decode(await _requestBody(path: path, parameters: parameters)));
+  }
+
+  Future<String> _requestBody(
       {@required String path, Map<String, String> parameters}) async {
     final uri = Uri.https(_host, '$_contextRoot/$path', parameters);
     print(uri);
@@ -41,7 +55,7 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
     final response = await httpClient.get(uri, headers: headers);
 
     if (response.statusCode == 200) {
-      return DataMoviesModel.fromJson(json.decode(response.body));
+      return response.body;
     } else {
       throw ServerException();
     }

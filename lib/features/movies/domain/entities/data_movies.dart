@@ -10,5 +10,5 @@ class DataMovies extends Equatable {
   DataMovies(this.results, this.page, this.totalResults, this.totalPages);
 
   @override
-  List<Object> get props => const <dynamic>[];
+  List<Object> get props => [results, page, totalResults, totalPages];
 }

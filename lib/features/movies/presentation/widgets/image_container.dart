@@ -16,6 +16,7 @@ class ImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(url);
     return Hero(
       tag: url,
       child: Container(

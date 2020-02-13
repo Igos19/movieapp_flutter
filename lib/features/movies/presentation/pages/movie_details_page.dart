@@ -1,52 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:movieapp/bloc/bloc_provider.dart';
-import 'package:movieapp/bloc/videos_query_bloc.dart';
-import 'package:movieapp/datalayer/video.dart';
 import 'package:movieapp/features/movies/domain/entities/movie.dart';
+import 'package:movieapp/features/movies/domain/entities/video.dart';
+import 'package:movieapp/features/movies/presentation/bloc/bloc.dart';
+import 'package:movieapp/features/movies/presentation/pages/play_video_page.dart';
 import 'package:movieapp/features/movies/presentation/widgets/image_container.dart';
-import 'package:movieapp/features/movies/presentation/widgets/play_video_screen.dart';
+import 'package:movieapp/injection_container.dart';
 import 'package:movieapp/res/styles.dart';
 
 import '../../../../res/strings.dart';
 
 class MovieDetailsPage extends StatelessWidget {
   final Movie movie;
+  final VideosEvent event;
 
-  const MovieDetailsPage({Key key, this.movie}) : super(key: key);
+  const MovieDetailsPage({Key key, this.movie, this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = VideosQueryBloc();
-
-    bloc.getVideos(movie.id);
-
-    return BlocProvider<VideosQueryBloc>(
-      bloc: bloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(movie.title),
-        ),
-        backgroundColor: Colors.black,
-        body: _buildResults(context, bloc),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(movie.title),
       ),
+      backgroundColor: Colors.black,
+      body: _buildBody(),
     );
+
+    //bloc.getVideos(movie.id);
   }
 
-  _buildResults(BuildContext context, VideosQueryBloc bloc) {
-    return StreamBuilder<List<Video>>(
-      stream: bloc.videosStream,
-      builder: (context, snapshot) {
-        final results = snapshot.data;
-
+  _buildBody() {
+    return BlocProvider<VideosBloc>(create: (context) {
+      return sl<VideosBloc>();
+    }, child: BlocBuilder<VideosBloc, VideosState>(
+      builder: (BuildContext context, VideosState state) {
         var video;
-        if (results != null && results.isNotEmpty) {
-          video = results.firstWhere(
-              (video) => video.site == 'YouTube' && video.type == 'Trailer');
-        } else {
-          video = null;
-        }
+        if (state is EmptyVideos) {
+          BlocProvider.of<VideosBloc>(context).add(event);
+        } else if (state is LoadedVideos) {
 
+          if (state.videos != null && state.videos.results.isNotEmpty) {
+            video = state.videos.results.firstWhere(
+                (video) => video.site == 'YouTube' && video.type == 'Trailer');
+          } else {
+            video = null;
+          }
+        } else if(state is ErrorVideos) {
+          debugPrint(state.message);
+        }
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +59,7 @@ class MovieDetailsPage extends StatelessWidget {
           ),
         );
       },
-    );
+    ));
   }
 
   Widget _buildBanner(BuildContext context, Video video) {

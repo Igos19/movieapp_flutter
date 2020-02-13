@@ -6,9 +6,12 @@ import 'package:movieapp/core/error/failures.dart';
 import 'package:movieapp/core/network/network_info.dart';
 import 'package:movieapp/features/movies/data/datasources/movie_remote_data_source.dart';
 import 'package:movieapp/features/movies/data/models/data_movies_model.dart';
+import 'package:movieapp/features/movies/data/models/data_videos_model.dart';
 import 'package:movieapp/features/movies/data/models/movie_model.dart';
+import 'package:movieapp/features/movies/data/models/video_model.dart';
 import 'package:movieapp/features/movies/data/repositories/movie_repository_impl.dart';
 import 'package:movieapp/features/movies/domain/entities/data_movies.dart';
+import 'package:movieapp/features/movies/domain/entities/data_videos.dart';
 
 class MockMovieRemoteDataSource extends Mock implements MovieRemoteDataSource {}
 
@@ -45,6 +48,7 @@ void main() {
   }
 
   runTestsOnline(() {
+    final tId = 1;
     final tPage = 1;
     final tMovieModel = MovieModel(
       id: 325133,
@@ -63,7 +67,18 @@ void main() {
       voteCount: 414,
     );
 
+    final tVideosModel = VideoModel(
+        id: '5794e8ff92514179d2003930',
+        iso639: 'en',
+        iso3166: 'US',
+        key: 'X2i9Zz_AqTg',
+        name: 'Neighbors 2 - Official Trailer (HD)',
+        site: 'YouTube',
+        size: 1080,
+        type: 'Trailer');
+
     final tMovieModels = [tMovieModel];
+    final tVideoModels = [tVideosModel];
 
     final DataMoviesModel tDataMoviesModel = DataMoviesModel(
         results: tMovieModels,
@@ -72,6 +87,10 @@ void main() {
         totalPages: 500);
     final DataMovies tDataMovies = tDataMoviesModel;
 
+    final DataVideosModel tDataVideosModel =
+        DataVideosModel(results: tVideoModels, id: tId);
+    final DataVideos tDataVideos = tDataVideosModel;
+
     group('now playing movies', () {
       test(
           'should return remote data when the call to remote data source is successfull',
@@ -180,6 +199,34 @@ void main() {
         final result = await repository.getPopularMovies(tPage);
         //assert
         verify(mockMovieRemoteDataSource.getPopularMovies(tPage));
+        expect(result, Left(ServerFailure()));
+      });
+    });
+
+    group('videos', () {
+      test(
+          'should return remote data when the call to remote data source is successfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getVideos(any))
+            .thenAnswer((_) async => tDataVideosModel);
+        // act
+        final result = await repository.getVideos(tId);
+        //assert
+        verify(mockMovieRemoteDataSource.getVideos(tId));
+        expect(result, Right(tDataVideos));
+      });
+
+      test(
+          'should return failure when the call remote data source is unsuccessfull',
+          () async {
+        // arrange
+        when(mockMovieRemoteDataSource.getVideos(any))
+            .thenThrow(ServerException());
+        // act
+        final result = await repository.getVideos(tId);
+        //assert
+        verify(mockMovieRemoteDataSource.getVideos(tId));
         expect(result, Left(ServerFailure()));
       });
     });
@@ -187,6 +234,7 @@ void main() {
 
   runTestsOffline(() {
     final tPage = 1;
+    final tId = 1;
 
     group('popular movies', () {
       test('should return NetworkFailure when there is not internet connection',
@@ -230,6 +278,18 @@ void main() {
         // arrange
         // act
         final result = await repository.getUpcomingMovies(tPage);
+        //assert
+        verify(mockNetworkInfo.isConnected);
+        expect(result, Left(NetworkFailure()));
+      });
+    });
+
+    group('videos', () {
+      test('should return NetworkFailure when there is not internet connection',
+          () async {
+        // arrange
+        // act
+        final result = await repository.getVideos(tId);
         //assert
         verify(mockNetworkInfo.isConnected);
         expect(result, Left(NetworkFailure()));

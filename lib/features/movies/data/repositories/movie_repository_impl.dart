@@ -6,6 +6,7 @@ import 'package:movieapp/core/network/network_info.dart';
 import 'package:movieapp/features/movies/data/datasources/movie_remote_data_source.dart';
 import 'package:movieapp/features/movies/data/models/data_movies_model.dart';
 import 'package:movieapp/features/movies/domain/entities/data_movies.dart';
+import 'package:movieapp/features/movies/domain/entities/data_videos.dart';
 import 'package:movieapp/features/movies/domain/repositories/movie_repository.dart';
 
 enum MoviesCategory { popular, top_rated, upcoming, now_playing }
@@ -54,6 +55,16 @@ class MovieRepositoryImpl extends MovieRepository {
           break;
       }
       return Right(dataMovies);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, DataVideos>> getVideos(int id) async {
+    if (!(await networkInfo.isConnected)) return Left(NetworkFailure());
+    try {
+      return Right(await source.getVideos(id));
     } on ServerException {
       return Left(ServerFailure());
     }

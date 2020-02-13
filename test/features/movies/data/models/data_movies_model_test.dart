@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:movieapp/features/movies/data/models/data_movies_model.dart';
 import 'package:movieapp/features/movies/data/models/movie_model.dart';
 import 'package:movieapp/features/movies/domain/entities/data_movies.dart';
-import 'package:movieapp/features/movies/domain/entities/movie.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

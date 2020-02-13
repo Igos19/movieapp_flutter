@@ -20,7 +20,7 @@ class MoviesPage extends StatefulWidget {
 
 class _MoviesPageState extends State<MoviesPage> {
   var currentPage = 1;
-  final List<Movie> movies = new List();
+  final List<Movie> movies = List();
   var l;
 
   @override
@@ -44,21 +44,22 @@ class _MoviesPageState extends State<MoviesPage> {
               if (widget.scrollController.position.pixels ==
                   widget.scrollController.position.maxScrollExtent) {
                 currentPage++;
-                BlocProvider.of<MoviesBloc>(context).add(widget.event.recreate(currentPage));
-                debugPrint(currentPage.toString());
+                BlocProvider.of<MoviesBloc>(context)
+                    .add(widget.event.recreate(currentPage));
               }
             };
             if (l != null) widget.scrollController.removeListener(l);
             widget.scrollController.addListener(listener);
             l = listener;
             if (state is Empty) {
-              BlocProvider.of<MoviesBloc>(context)
-                  .add(widget.event);
+              BlocProvider.of<MoviesBloc>(context).add(widget.event);
               return Center();
             } else if (state is Loading) {
               //return Center(child: CircularProgressIndicator());
             } else if (state is Loaded) {
-              movies.addAll(state.movies.results);
+              var result = state.movies.results
+                  .where((movie) => !(movies.contains(movie)));
+              movies.addAll(result);
               return MoviesGrid(
                 movies: movies,
                 scrollController: widget.scrollController,

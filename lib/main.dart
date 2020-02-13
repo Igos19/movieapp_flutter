@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/features/movies/presentation/pages/home_screen.dart';
+import 'package:movieapp/features/movies/presentation/pages/home_page.dart';
 import 'package:movieapp/res/styles.dart';
 
 import 'injection_container.dart' as di;

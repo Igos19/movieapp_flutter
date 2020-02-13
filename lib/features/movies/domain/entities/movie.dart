@@ -33,5 +33,20 @@ class Movie extends Equatable {
       this.voteCount);
 
   @override
-  List<Object> get props => const <dynamic>[];
+  List<Object> get props => [
+        id,
+        adult,
+        overview,
+        popularity,
+        posterPath,
+        title,
+        releaseDate,
+        genreIds,
+        originalTitle,
+        originalLanguage,
+        backdropPath,
+        voteAverage,
+        video,
+        voteCount
+      ];
 }

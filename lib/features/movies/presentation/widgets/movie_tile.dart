@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/features/movies/domain/entities/movie.dart';
+import 'package:movieapp/features/movies/presentation/bloc/bloc.dart';
 import 'package:movieapp/features/movies/presentation/pages/movie_details_page.dart';
 import 'package:movieapp/res/strings.dart';
 
@@ -19,7 +20,10 @@ class MovieTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => MovieDetailsPage(movie: movie),
+            builder: (context) => MovieDetailsPage(
+              movie: movie,
+              event: GetVideosEvent(id: movie.id),
+            ),
           ),
         );
       },

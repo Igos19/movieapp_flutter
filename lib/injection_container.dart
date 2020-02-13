@@ -9,6 +9,7 @@ import 'package:movieapp/features/movies/domain/usecases/get_now_playing_movies.
 import 'package:movieapp/features/movies/domain/usecases/get_popular_movies.dart';
 import 'package:movieapp/features/movies/domain/usecases/get_top_rated_movies.dart';
 import 'package:movieapp/features/movies/domain/usecases/get_upcoming_movies.dart';
+import 'package:movieapp/features/movies/domain/usecases/get_videos.dart';
 import 'package:movieapp/features/movies/presentation/bloc/bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,11 +25,16 @@ Future<void> init() async {
         popular: sl(), topRated: sl(), upcoming: sl(), nowPlaying: sl()),
   );
 
+  sl.registerFactory(
+    () => VideosBloc(videos: sl()),
+  );
+
   // Use cases
   sl.registerLazySingleton(() => GetPopularMovies(sl()));
   sl.registerLazySingleton(() => GetTopRatedMovies(sl()));
   sl.registerLazySingleton(() => GetUpcomingMovies(sl()));
   sl.registerLazySingleton(() => GetNowPlayingMovies(sl()));
+  sl.registerLazySingleton(() => GetVideos(sl()));
 
   // Repository
   sl.registerLazySingleton<MovieRepository>(
@@ -44,7 +50,8 @@ Future<void> init() async {
   );
 
   //! Core
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(connectionChecker: sl()));
+  sl.registerLazySingleton<NetworkInfo>(
+      () => NetworkInfoImpl(connectionChecker: sl()));
 
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();

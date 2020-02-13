@@ -51,9 +51,7 @@ main() {
         "adult": false,
         "overview": "overview",
         "release_date": "2016-05-05",
-        "genre_ids": [
-          35
-        ],
+        "genre_ids": [35],
         "id": 325133,
         "original_title": "Neighbors 2: Sorority Rising",
         "original_language": "en",
